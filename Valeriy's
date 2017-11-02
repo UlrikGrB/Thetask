@@ -1,0 +1,19 @@
+# Valeriy's program to get data
+# Can easily be made into a general function
+library(tseries)
+library(zoo)
+# The specific assignment tickers
+Symbol <- c("vfinx","veurx","veiex","vpacx","vbltx","vbiix","vgsix")
+nSymbols <- length(Symbol)
+for(i in 1:nSymbols) {
+new.symbol <- get.hist.quote(instrument= Symbol[i],
+start = "2005-01-01",
+end = "2017-02-01",
+quote="AdjClose",
+provider = "yahoo",
+origin="1970-01-01",
+compression = "m",
+retclass="zoo")
+names(new.symbol) = Symbol[i]
+if(i==1) rawdata = new.symbol else rawdata = merge(rawdata, new.symbol)
+}
