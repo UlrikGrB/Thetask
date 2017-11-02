@@ -1,0 +1,26 @@
+monreturns<-function(x){
+# 
+# Custom made program made specifically to get monthly prices 
+# Input can be a time serie or time series of various tickers of monthyprices
+# Output is a dataframe of monthly returns
+#
+dates<-as.yearmon(index(x))
+# No need for the last date
+dates<-dates[-(length(dates))]
+# An intermediate list used to carry data over to the data frame
+dummylist<-list()
+
+for(i in 1:ncol(x)){
+# Calculating the monthly mean return
+a<-x[,i]
+t0<-as.vector(a[1:(length(a)-1)])
+t1<-as.vector(a[2:length(a)])
+t2<-(t1-t0)/t0
+dummylist[[i]]<-t2
+}
+names(dummylist)<-names(x)
+df<-as.data.frame(dummylist)
+rownames(df)<-dates
+return(df)
+}
+
