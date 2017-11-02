@@ -1,0 +1,29 @@
+# The correlation matrix function
+# Is behaving like R's cor()
+#
+corrmat<-function(x){
+#
+# Fill in a diag matrix
+# Each non diag element is only comupted once to efficieny criteria
+#
+correlation_matrix<-diag(ncol(x))
+rnames<-names(x); cnames<-rnames
+for(i in 1:ncol(x)){
+a<-x[,i]
+mean_i<-sum(a)/length(a)
+for(j in i:ncol(x)){
+b<-x[,j]
+tempsum<-0
+mean_j<-sum(b)/length(b)
+if(i!=j){
+for(k in 1:nrow(x)){
+tempsum<-tempsum+((a[k])-mean_i)*((b[k])-mean_j)
+}   
+corrij<-tempsum/((nrow(x)-1)*sd(a)*sd(b))
+correlation_matrix[i,j]<-corrij; correlation_matrix[j,i]<-corrij
+}
+}
+}
+rownames(correlation_matrix)<-rnames; colnames(correlation_matrix)<-rnames
+return(correlation_matrix)
+}
