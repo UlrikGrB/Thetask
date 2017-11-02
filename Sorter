@@ -1,0 +1,13 @@
+# A function used to plot correctly
+# The x-vector is alligned up with the y-vector in a smart way
+# Sorter produced unambigious plots if the x-values are all different
+#
+Sorter<-function(x,y){
+x.sorted<-sort(x,decreasing=FALSE)
+new.y<-c()
+for(i in 1:length(x)){
+new.y[i]<-y[x.sorted[i]==x]
+}
+plot(x.sorted,new.y,type="o",xlab="SD",
+ylab="Mean return",main="Annualized Mean & Std\nfor all indicies")
+}
