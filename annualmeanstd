@@ -1,4 +1,4 @@
-annualmeanstd<-function(x,write){
+annualmeanstd<-function(x,write="No"){
 # 
 # A function used to create annual means and stds from monthly returns
 # Output is a matrix: first column stds, second column means
@@ -20,12 +20,13 @@ mylist$Annualmean<-returnvec1*12
 mylist$Annualstd<-returnvec2*sqrt(12)
 names(mylist[[1]])<-copynames ; names(mylist[[2]])<-copynames
 dataplot<-cbind(mylist$Annualstd,mylist$Annualmean)
-colnames(dataplot)<-c("Std","Mean)
+colnames(dataplot)<-c("Std","Mean")
 
-if(write=="Yes"||"yes"||"y){
+if(any(write==c("Yes","Y","y","yes"))){
 # Transport file to Excel to be polished
-write.csv(dataplot,file="dataplot.csv)
+write.csv(dataplot,file="dataplot.csv")
 return(dataplot)
 }else{
 return(dataplot)
-
+}
+}
