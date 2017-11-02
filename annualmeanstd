@@ -1,0 +1,31 @@
+annualmeanstd<-function(x,write){
+# 
+# A function used to create annual means and stds from monthly returns
+# Output is a matrix: first column stds, second column means
+#
+copynames<-names(x)
+# Dummy list used to transport data
+mylist<-list()
+returnvec1<-c() ; returnvec2<-c()
+n<-length(x[,1])
+for(i in 1:ncol(x)){
+meanm<-sum(x[,i])/n
+returnvec1[i]<-meanm
+top<-sum((x[,i]-returnvec1[i])^(2)) ; bot<-(n-1)
+std<-sqrt(top/bot)
+returnvec2[i]<-std
+}
+# Annualizing returns and stds
+mylist$Annualmean<-returnvec1*12
+mylist$Annualstd<-returnvec2*sqrt(12)
+names(mylist[[1]])<-copynames ; names(mylist[[2]])<-copynames
+dataplot<-cbind(mylist$Annualstd,mylist$Annualmean)
+colnames(dataplot)<-c("Std","Mean)
+
+if(write=="Yes"||"yes"||"y){
+# Transport file to Excel to be polished
+write.csv(dataplot,file="dataplot.csv)
+return(dataplot)
+}else{
+return(dataplot)
+
