@@ -1,26 +1,33 @@
-monreturns<-function(x){
+annualmeanstd<-function(x,write){
 # 
-# Custom made program made specifically to get monthly prices 
-# Input can be a time serie or time series of various tickers of monthyprices
-# Output is a dataframe of monthly returns
+# A function used to create annual means and stds from monthly returns
+# Output is a matrix: first column stds, second column means
 #
-dates<-as.yearmon(index(x))
-# No need for the last date
-dates<-dates[-(length(dates))]
-# An intermediate list used to carry data over to the data frame
-dummylist<-list()
-
+copynames<-names(x)
+# Dummy list used to transport data
+mylist<-list()
+returnvec1<-c() ; returnvec2<-c()
+n<-length(x[,1])
 for(i in 1:ncol(x)){
-# Calculating the monthly mean return
-a<-x[,i]
-t0<-as.vector(a[1:(length(a)-1)])
-t1<-as.vector(a[2:length(a)])
-t2<-(t1-t0)/t0
-dummylist[[i]]<-t2
-}
-names(dummylist)<-names(x)
-df<-as.data.frame(dummylist)
-rownames(df)<-dates
-return(df)
+mean<-sum(x[,i])/n
+returnvec1[i]<-mean
+top<-sum((x[,i]-returnvec1[i])^(2)) ; bot<-(n-1)
+std<-sqrt(top/bot)
+returnvec2[i]<-std
 }
 
+# Annualizing returns and stds
+mylist$Annualmean<-returnvec1*12
+mylist$Annualstd<-returnvec2*sqrt(12)
+names(mylist[[1]])<-copynames ; names(mylist[[2]])<-copynames
+dataplot<-cbind(mylist$Annualstd,mylist$Annualmean)
+colnames(dataplot)<-c("Std","Mean")
+                        
+if(any(write==c("Yes","Y","yes","Ya","y"))){
+#Transport file to Excel to be polished
+write.csv(dataplot,file="dataplot.csv")
+return(dataplot)
+}else{
+return(dataplot)
+}
+}
