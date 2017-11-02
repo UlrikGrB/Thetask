@@ -1,4 +1,4 @@
-# Valeriy's program to get data
+# Valeriy's program to get data for some tickers
 # Can easily be made into a general function
 library(tseries)
 library(zoo)
