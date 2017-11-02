@@ -1,0 +1,28 @@
+#
+# Transform a dataframe like a time series matrix
+#
+
+transform<-function(w,start,frequency){
+  
+# Internal function
+Index<-function(y){
+library(tseries)
+# Using apply to run through the columns of y and return real index price vectors
+apply(y,2,FUN=function(x){
+temp<-100
+holder<-c()
+holder[1]<-temp
+for(i in 1:length(x)){
+temp<-temp*(x[i]+1)
+holder[i+1]<-temp
+}
+return(holder)
+})
+}
+# Calling the internal function Index in the local enviroment
+# Transforming to ts
+Index_Returns<-ts(Index(w),start=start,frequency=frequency)
+# Plotting the graphs
+plot(Index_Returns,main="Index returns for various ticker",xlab="Time")
+}
+
