@@ -1,7 +1,6 @@
 #
 # Transform a dataframe like a time series matrix
 #
-
 transform<-function(w,start,frequency){
   
 # Internal function
@@ -19,6 +18,7 @@ holder[i+1]<-temp
 return(holder)
 })
 }
+
 # Calling the internal function Index in the local enviroment
 # Transforming to ts
 Index_Returns<-ts(Index(w),start=start,frequency=frequency)
