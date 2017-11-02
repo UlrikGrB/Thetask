@@ -1,5 +1,6 @@
-annualmeanstd<-function(x,write){
+annualmeanstd<-function(x,write="No"){
 # 
+# The functions default behaviour is not to write to Excel
 # A function used to create annual means and stds from monthly returns
 # Output is a matrix: first column stds, second column means
 #
